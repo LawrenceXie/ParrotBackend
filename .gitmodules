@@ -1,0 +1,3 @@
+[submodule "ParrotFrontend"]
+	path = ParrotFrontend
+	url = https://github.com/LawrenceXie/ParrotFrontend
