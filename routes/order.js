@@ -2,23 +2,16 @@ const nodemailer = require("nodemailer");
 
 // Set up the email configuration
 const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.com",
+  host: "smtp.yandex.com",
   port: 465,
   secure: true, // use SSL
   auth: {
-    user: "lawrence@mathabit.com",
-    pass: "a3vFYb9!"
+    user: "orders@packageparrot.com",
+    pass: "Cheese123"
   }
 });
 
 // setup e-mail data, even with unicode symbols
-var mailOptions = {
-  from: '"Kewl Guy " <lawrence@mathabit.com>', // sender address (who sends)
-  to: "lawrence.xie90@gmail.com", // list of receivers (who receives)
-  subject: "Testing", // Subject line
-  text: "Hello world ", // plaintext body
-  html: "<b>Hello world </b><br> Email sent with Nodemailer in Node.js" // html body
-};
 
 const orderApi = app => {
   app.get("/order", (req, res) => {
@@ -28,6 +21,25 @@ const orderApi = app => {
   });
 
   app.post("/order", (req, res) => {
+    var mailOptions = {
+      from: '"Package Parrot Orders" <orders@packageparrot.com>',
+      to: req.body.email,
+      bcc: "orders@packageparrot.com",
+      subject: "Package Parrot Order Confirmation",
+      //text: "Hello world ", // plaintext body
+      html:
+        "Hi " +
+        req.body.name +
+        ",<br>" +
+        'We are checking to see if your item is available:<br><a href="' +
+        req.body.itemLink +
+        '">' +
+        req.body.itemLink +
+        "</a><br><br>To be delivered at:<br>" +
+        req.body.address +
+        "<br><br>We'll be in touch soon to confirm item availability and delivery times.<br><br>Package Parrot"
+    };
+
     transporter.sendMail(mailOptions, function(error, info) {
       if (error) {
         return console.log(error);
@@ -35,7 +47,7 @@ const orderApi = app => {
       console.log("Message sent: " + info.response);
     });
 
-    res.send("form submitted");
+    res.status(200).send("form submitted");
   });
 
   return app;
