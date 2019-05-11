@@ -1,5 +1,1 @@
 
-[submodule "ParrotFrontend"]
-	path = ParrotFrontend
-	url = git@github.com:LawrenceXie/ParrotFrontend.git
-	branch = master
